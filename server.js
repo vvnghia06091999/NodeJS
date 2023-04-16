@@ -1,20 +1,28 @@
 'use strict'
-require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
 const http = require('http');
 const cors = require('cors');
+const MySQL = require('./Models/MySQL');
+const serverConfig = require('./Configs/serverConfig');
+const router = require('./Routers');
+const bodyParser  = require('body-parser');
 
 const app = express();
-const models = require('./Models');
-const router = require('./Routers/index');
 
-app.use(express.json());
-app.use(express.urlencoded);
-models.init();
+app.use(bodyParser.json());
+
+try {
+    MySQL.sequelize.sync({force: true}).then(() => console.log('Connected MySQL'));
+    require('./Models/MongoDB');
+} catch (error) {
+    console.log(error);
+}
+
 router(app);
 
 const server = http.createServer(app);
-server.listen(process.env.PORT, () => {
-    console.log('Server is running PORT :' + process.env.PORT);
+server.listen(serverConfig.PORT, () => {
+    console.log('Server is running PORT :' + serverConfig.PORT);
 });

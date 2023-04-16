@@ -14,11 +14,6 @@ const User = (MySql) => {
         age: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            set:(value) => {
-                if(value > 0){
-                    throw new Error('Age > 0');
-                }
-            }
         }
     };
 

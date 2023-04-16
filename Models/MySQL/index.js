@@ -2,7 +2,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('../../Configs/mysqlConfigs');
 
-const MySql = new Sequelize(
+const sequelize = new Sequelize(
     config.database,
     config.username,
     config.password,
@@ -14,14 +14,21 @@ const MySql = new Sequelize(
     }
 );
 
+const MySQL = {sequelize};
+
 /**
  * Models
  */
-MySql.User = require('./User')(MySql);
-MySql.Account = require('./Account')(MySql);
+MySQL.User = require('./User')(sequelize);
+MySQL.Account = require('./Account')(sequelize);
+MySQL.Car = require('./Car')(sequelize);
 /**
  * Models associated element
  */
-MySql.User.belongsTo(MySql.Account, {as: 'account'});
+MySQL.User.hasOne(MySQL.Account);
+MySQL.Account.belongsTo(MySQL.User);
+MySQL.User.hasMany(MySQL.Car);
+MySQL.Car.belongsTo(MySQL.User);
 
-module.exports = MySql;
+
+module.exports = MySQL;

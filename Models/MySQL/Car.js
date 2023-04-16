@@ -1,14 +1,13 @@
 'use strict'
 const { DataTypes } = require('sequelize');
 
-const Account = (MySql) => {
+const Car = (MySql) => {
     const attributes = {
-        userName: {
+        nameCar: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
-        password: {
+        typeCar: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -23,7 +22,7 @@ const Account = (MySql) => {
         }
     };
 
-    return MySql.define('Account', attributes, options);
+    return MySql.define('Car', attributes, options);
 };
 
-module.exports = Account;
+module.exports = Car;

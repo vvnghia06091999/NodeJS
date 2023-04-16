@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 (async () => {
-    await mongoose.connect('mongodb://localhost:27017/Test').then(()=>{
-        console.log('Connect');
-    }).catch(err => {
+    // await mongoose.connect('mongotest://127.0.0.1:27017/Test').then(()=>{
+    //     console.log('Connect');
+    // }).catch(err => {
+    //     console.log(err);
+    // });
+
+    const test = mongoose.createConnection('mongodb://127.0.0.1:27017/Test1');
+    test.on('error', (err) => {
         console.log(err);
     });
 
-    const db = mongoose.connection;
-    db.on('error', (err) => {
-        console.log(err);
-    });
-
-    const User = db.model('User', new Schema({
+    const User = test.model('User', new Schema({
         userName: {
             type: String,
             required: true,
@@ -42,7 +42,9 @@ const Schema = mongoose.Schema;
 
     await User.deleteMany({ userName: 'Test'});
 
-    mongoose.disconnect().then(() => {
-        console.log('disconnect');
-    })
+    await test.close();
+
+    // mongoose.disconnect().then(() => {
+    //     console.log('disconnect');
+    // })
 })();
