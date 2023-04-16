@@ -8,10 +8,13 @@ const MySQL = require('./Models/MySQL');
 const serverConfig = require('./Configs/serverConfig');
 const router = require('./Routers');
 const bodyParser  = require('body-parser');
+const morgan = require('morgan');
+require('express-async-errors');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 try {
     MySQL.sequelize.sync({force: true}).then(() => console.log('Connected MySQL'));

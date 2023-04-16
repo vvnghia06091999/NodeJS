@@ -8,11 +8,11 @@ const AccountServiece = require('../Services/AccountServiece');
 const serverConfig = require('../Configs/serverConfig');
 
 const UserController = {
-    signUp: async (req, res) => {
+    signUp: async (req, res, next) => {
         const params = req.body;
 
         const Schema = Joi.object({
-            fisrtName: Joi.string().required(),
+            firstName: Joi.string().required(),
             lastName: Joi.string().required(),
             age: Joi.number().integer().allow(null, 0).default(null),
             userName: Joi.string().required(),
@@ -24,11 +24,12 @@ const UserController = {
             return res.status(500).send(error);
         }
 
-        const result = await UserServiece.addUser({fisrtName: value.fisrtName, lastName: value.lastName, age: value.age});
+        const result = await UserServiece.addUser({firstName: value.firstName, lastName: value.lastName, age: value.age});
         if(!result){
             res.status(500).send({
                 Message: 'SOS!'
             });
+            //throw Error("throw Error");
         }
         if(result){
             return res.status(200).send(result);

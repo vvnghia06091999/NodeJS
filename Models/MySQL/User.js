@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 
 const User = (MySql) => {
     const attributes = {
-        fisrtName: {
+        firstName: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -21,15 +21,15 @@ const User = (MySql) => {
         setterMethods: {
             fullName: (value) => {
                 const name = value.split(' ');
-                const fisrtName = name[0];
+                const firstName = name[0];
                 const lastName = name.slice(1).join(' ');
-                this.setDataValue('fisrtName', fisrtName);
+                this.setDataValue('firstName', firstName);
                 this.setDataValue('lastName', lastName);
             },
         },
         getterMethods: {
             fullName: () => {
-                return this.fisrtName + ' ' + this.lastName;
+                return this.firstName + ' ' + this.lastName;
             }
         }
     };

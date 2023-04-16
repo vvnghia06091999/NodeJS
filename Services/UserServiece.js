@@ -5,7 +5,6 @@ const UserServiece = {
     addUser: async (user) => {
         let result;
         await User.create(user).then(data => {
-            console.log(data);
             result = data;
         }).catch(err => {
             console.log(err);
